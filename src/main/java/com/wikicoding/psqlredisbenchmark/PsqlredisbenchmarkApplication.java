@@ -19,13 +19,13 @@ public class PsqlredisbenchmarkApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(PersonRepository personRepository, PersonMongoRepository personMongoRepository) {
 		return args -> {
-			for (int i = 0; i < 100_000; i++) {
+			for (int i = 0; i < 2_000; i++) {
 				personRepository.save(new Person(0, "John Doe" + i));
-				personMongoRepository.save(new PersonMongo("John Doe" + i));
+//				personMongoRepository.save(new PersonMongo("John Doe" + i));
 			}
-			// personRepository.save(new Person(0, "John Doe"));
-			// personRepository.save(new Person(0, "Jane Doe"));
-			// personRepository.save(new Person(0, "Tom Doe"));
+//			 personRepository.save(new Person(0, "John Doe"));
+//			 personRepository.save(new Person(0, "Jane Doe"));
+//			 personRepository.save(new Person(0, "Tom Doe"));
 
 			// personMongoRepository.save(new PersonMongo("John Doe"));
 			// personMongoRepository.save(new PersonMongo("Jane Doe"));

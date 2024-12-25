@@ -6,13 +6,18 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: persons
     ports:
-      - "5432:5432"
+      - "5555:5432"
 
   redis2:
     image: redis:latest
     container_name: redis2
     ports:
       - "6379:6379"
+
+  hazelcast:
+    image: hazelcast/hazelcast
+    ports:
+      - "5701:5701"
 
   mongodb:
     image: mongo
