@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: persons
+    ports:
+      - "5432:5432"
+
+  redis2:
+    image: redis:latest
+    container_name: redis2
+    ports:
+      - "6379:6379"
+
+  mongodb:
+    image: mongo
+    container_name: mongodb-1
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopass
+      MONGO_INITDB_DATABASE: persons
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongouser
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mongopass
+      ME_CONFIG_MONGODB_URL: mongodb://mongouser:mongopass@mongodb:27017/
+      ME_CONFIG_BASICAUTH: false
