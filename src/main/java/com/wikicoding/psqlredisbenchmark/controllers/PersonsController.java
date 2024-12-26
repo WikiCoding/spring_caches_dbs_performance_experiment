@@ -9,8 +9,10 @@ import com.wikicoding.psqlredisbenchmark.repository.PersonMongoRepository;
 import com.wikicoding.psqlredisbenchmark.repository.PersonRepository;
 import com.wikicoding.psqlredisbenchmark.repository.RedisCache;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,13 +27,22 @@ import java.util.concurrent.ConcurrentMap;
 
 @RestController
 @RequestMapping("/")
-@AllArgsConstructor
 public class PersonsController {
     private final PersonRepository personRepository;
     private final PersonMongoRepository personMongoRepository;
     private final RedisCache redisCache;
     private final HazelcastInstance hazelcastInstance;
     private final Logger logger = LoggerFactory.getLogger(PersonsController.class);
+
+    public PersonsController(PersonRepository personRepository,
+                             PersonMongoRepository personMongoRepository,
+                             RedisCache redisCache,
+                             @Qualifier("hazelcastInstance") HazelcastInstance hazelcastInstance) {
+        this.personRepository = personRepository;
+        this.personMongoRepository = personMongoRepository;
+        this.redisCache = redisCache;
+        this.hazelcastInstance = hazelcastInstance;
+    }
 
     private ConcurrentMap<String, Person> retrieveMap() {
         return hazelcastInstance.getMap("persons");
